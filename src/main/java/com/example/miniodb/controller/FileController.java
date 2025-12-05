@@ -32,5 +32,13 @@ public class FileController {
         return ResponseEntity.ok("TXT файл загружен: " + file.getOriginalFilename());
     }
 
+    @PostMapping("/upload/json")
+    public ResponseEntity<String> uploadJson(@RequestParam("file") MultipartFile file) {
+        if (!file.getOriginalFilename().toLowerCase().endsWith(".json")) {
+            return ResponseEntity.badRequest().body("Ошибка: файл должен быть JSON (*.json)");
+        }
+        minioService.uploadFile(file);
+        return ResponseEntity.ok("JSON файл загружен: " + file.getOriginalFilename());
+    }
 
 }

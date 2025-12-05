@@ -23,5 +23,14 @@ public class FileController {
         return ResponseEntity.ok("PNG файл загружен: " + file.getOriginalFilename());
     }
 
+    @PostMapping("/upload/txt")
+    public ResponseEntity<String> uploadTxt(@RequestParam("file") MultipartFile file) {
+        if (!file.getOriginalFilename().toLowerCase().endsWith(".txt")) {
+            return ResponseEntity.badRequest().body("Ошибка: файл должен быть TXT (*.txt)");
+        }
+        minioService.uploadFile(file);
+        return ResponseEntity.ok("TXT файл загружен: " + file.getOriginalFilename());
+    }
+
 
 }
